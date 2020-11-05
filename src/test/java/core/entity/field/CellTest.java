@@ -28,6 +28,19 @@ class CellTest {
 
     @Test
     void setNeighbor() {
+        final int[] pointCoordinates = new int[] {1, 1};
+        Point targetPoint = new Point(pointCoordinates[0], pointCoordinates[1]);
+        Cell targetCell = new Cell(targetPoint);
+
+        Cell topNeighbor = new Cell(new Point(targetPoint.getX(), targetPoint.getY() - 1));
+        targetCell.setNeighbor(Direction.NORTH, topNeighbor);
+
+        List<Cell> expectedCellNeighbors = new ArrayList<>();
+        expectedCellNeighbors.add(topNeighbor);
+
+        List<Cell> actualCellNeighbors = targetCell.getNeighbors();
+
+        Assertions.assertEquals(expectedCellNeighbors, actualCellNeighbors);
     }
 
     @Test
