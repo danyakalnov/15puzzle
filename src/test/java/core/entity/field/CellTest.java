@@ -76,7 +76,27 @@ class CellTest {
     }
 
     @Test
-    void isNeighbor() {
+    void isNeighborPositive() {
+        final int[] pointCoordinates = new int[] {1, 1};
+        Point targetPoint = new Point(pointCoordinates[0], pointCoordinates[1]);
+        Cell targetCell = new Cell(targetPoint);
+
+        Cell topNeighbor = new Cell(new Point(targetPoint.getX(), targetPoint.getY() - 1));
+        targetCell.setNeighbor(Direction.NORTH, topNeighbor);
+
+        Assertions.assertEquals(true, targetCell.isNeighbor(topNeighbor));
+    }
+
+    @Test
+    void isNeighborNegative() {
+        final int[] pointCoordinates = new int[] {1, 1};
+        Point targetPoint = new Point(pointCoordinates[0], pointCoordinates[1]);
+        Cell targetCell = new Cell(targetPoint);
+
+        Cell topNeighbor = new Cell(new Point(targetPoint.getX(), targetPoint.getY() - 1));
+        targetCell.setNeighbor(Direction.NORTH, topNeighbor);
+
+        Assertions.assertEquals(false, targetCell.isNeighbor(new Cell(new Point(0, 0))));
     }
 
     @Test
