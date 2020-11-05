@@ -2,6 +2,7 @@ package core.entity.field;
 
 import core.exceptions.CellAlreadyHasKnuckleException;
 import core.exceptions.CellAlreadyHasNeighborInDirectionException;
+import core.exceptions.CellAlreadyHasSameNeighborException;
 import core.util.Direction;
 import core.util.Point;
 import org.junit.jupiter.api.Assertions;
@@ -62,7 +63,16 @@ class CellTest {
 
     @Test
     void setNeighborWhichAlreadyExistsInOtherDirection() {
+        final int[] pointCoordinates = new int[] {1, 1};
+        Point targetPoint = new Point(pointCoordinates[0], pointCoordinates[1]);
+        Cell targetCell = new Cell(targetPoint);
 
+        Cell topNeighbor = new Cell(new Point(targetPoint.getX(), targetPoint.getY() - 1));
+        targetCell.setNeighbor(Direction.NORTH, topNeighbor);
+
+        Assertions.assertThrows(CellAlreadyHasSameNeighborException.class, () -> {
+            targetCell.setNeighbor(Direction.SOUTH, topNeighbor);
+        });
     }
 
     @Test
