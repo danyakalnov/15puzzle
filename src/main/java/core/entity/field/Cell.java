@@ -1,6 +1,7 @@
 package core.entity.field;
 
 import core.exceptions.CellAlreadyHasKnuckleException;
+import core.exceptions.CellAlreadyHasSameNeighborException;
 import core.util.Direction;
 import core.util.Point;
 import core.exceptions.CellAlreadyHasNeighborInDirectionException;
@@ -75,6 +76,8 @@ public class Cell {
             return;
         if (_neighbors.containsKey(direction))
             throw new CellAlreadyHasNeighborInDirectionException(direction, this, newNeighbor);
+        if (_neighbors.containsValue(newNeighbor) && !_neighbors.containsKey(direction))
+            throw new CellAlreadyHasSameNeighborException(this, newNeighbor);
         if (this != newNeighbor && !isNeighbor(newNeighbor)) {
             this._neighbors.put(direction, newNeighbor);
             newNeighbor.setNeighbor(direction.getOpposite(), this);
