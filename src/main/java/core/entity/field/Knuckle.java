@@ -1,5 +1,7 @@
 package core.entity.field;
 
+import core.exceptions.CellAlreadyHasKnuckleException;
+
 public class Knuckle {
     private int _number;
     private Cell _position;
@@ -45,8 +47,12 @@ public class Knuckle {
     public Cell move() {
         Cell emptyCell = canMove();
         if (emptyCell != null) {
-            this._position = null;
-            if (emptyCell.setKnuckle(this)) return emptyCell;
+            this._position.removeKnuckle(this);
+            try {
+                if (emptyCell.setKnuckle(this)) return emptyCell;
+            } catch (CellAlreadyHasKnuckleException exception) {
+                System.out.println(exception.getMessage());
+            }
         }
 
         return null;
@@ -60,5 +66,10 @@ public class Knuckle {
         }
 
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Костяшка №" + Integer.toString(this._number);
     }
 }
