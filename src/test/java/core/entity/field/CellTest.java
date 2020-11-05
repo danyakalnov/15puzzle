@@ -84,7 +84,7 @@ class CellTest {
         Cell topNeighbor = new Cell(new Point(targetPoint.getX(), targetPoint.getY() - 1));
         targetCell.setNeighbor(Direction.NORTH, topNeighbor);
 
-        Assertions.assertEquals(true, targetCell.isNeighbor(topNeighbor));
+        Assertions.assertTrue(targetCell.isNeighbor(topNeighbor));
     }
 
     @Test
@@ -96,7 +96,7 @@ class CellTest {
         Cell topNeighbor = new Cell(new Point(targetPoint.getX(), targetPoint.getY() - 1));
         targetCell.setNeighbor(Direction.NORTH, topNeighbor);
 
-        Assertions.assertEquals(false, targetCell.isNeighbor(new Cell(new Point(0, 0))));
+        Assertions.assertFalse(targetCell.isNeighbor(new Cell(new Point(0, 0))));
     }
 
     @Test
@@ -176,7 +176,7 @@ class CellTest {
 
         Cell actualEmptyCell = targetCell.getEmptyNeighborCell();
 
-        Assertions.assertEquals(null, actualEmptyCell);
+        Assertions.assertNull(actualEmptyCell);
     }
 
     @Test
@@ -207,7 +207,7 @@ class CellTest {
         Cell actualKnuckleCell = knuckle.getCell();
         int actualCellKnuckleNumber = cell.getKnuckleNumber();
 
-        Assertions.assertEquals(true, settingResult);
+        Assertions.assertTrue(settingResult);
         Assertions.assertEquals(cell, actualKnuckleCell);
         Assertions.assertEquals(knuckleNumber, actualCellKnuckleNumber);
     }
@@ -230,9 +230,9 @@ class CellTest {
         int actualCellKnuckleNumber = cell.getKnuckleNumber();
         Cell actualKnuckleCell = knuckle.getCell();
 
-        Assertions.assertEquals(true, removingResult);
+        Assertions.assertTrue(removingResult);
         Assertions.assertEquals(0, actualCellKnuckleNumber);
-        Assertions.assertEquals(null, actualKnuckleCell);
+        Assertions.assertNull(actualKnuckleCell);
     }
 
     @Test
@@ -256,7 +256,7 @@ class CellTest {
         int actualCellKnuckleNumber = cell.getKnuckleNumber();
         Cell actualKnuckleCell = firstKnuckle.getCell();
 
-        Assertions.assertEquals(false, removingResult);
+        Assertions.assertFalse(removingResult);
         Assertions.assertEquals(firstKnuckleNumber, actualCellKnuckleNumber);
         Assertions.assertEquals(cell, actualKnuckleCell);
     }
@@ -274,7 +274,7 @@ class CellTest {
             System.out.println(exception.getMessage());
         }
 
-        Assertions.assertEquals(false, cell.isEmpty());
+        Assertions.assertFalse(cell.isEmpty());
     }
 
     @Test
@@ -283,6 +283,6 @@ class CellTest {
         Point point = new Point(pointCoordinates[0], pointCoordinates[1]);
         Cell cell = new Cell(point);
 
-        Assertions.assertEquals(true, cell.isEmpty());
+        Assertions.assertTrue(cell.isEmpty());
     }
 }
