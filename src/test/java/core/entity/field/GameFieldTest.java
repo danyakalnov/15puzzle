@@ -9,14 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 class GameFieldTest {
-
-    @Test
-    void getCellByPoint() {
-    }
-
     @Test
     void reset() {
+        final int size = 4;
+        GameField testField = new GameField(size);
 
+        testField.reset();
+
+        List<Cell> cells = testField.getCells();
+        cells.forEach(cell -> {
+            Assertions.assertEquals(0, cell.getKnuckleNumber());
+        });
     }
 
     @Test
