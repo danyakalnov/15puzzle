@@ -3,8 +3,16 @@ package core.util;
 import java.util.Objects;
 
 public final class Point {
-    public final int _x;
-    public final int _y;
+    public int getX() {
+        return _x;
+    }
+
+    public int getY() {
+        return _y;
+    }
+
+    private final int _x;
+    private final int _y;
 
     public Point(int x, int y) {
         this._x = x;
@@ -27,10 +35,10 @@ public final class Point {
 
     @Override
     public String toString() {
-        return "Point{" +
-                "x=" + _x +
-                ", y=" + _y +
-                '}';
+        return "(" +
+                "x = " + _x +
+                ", y = " + _y +
+                ')';
     }
 }
 
