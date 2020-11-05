@@ -164,7 +164,28 @@ class CellTest {
 
     @Test
     void removeAnotherKnuckle() {
+        final int firstKnuckleNumber = 1;
+        final int secondKnuckleNumber = 2;
+        final int[] pointCoordinates = new int[] {1, 1};
+        Point point = new Point(pointCoordinates[0], pointCoordinates[1]);
+        Cell cell = new Cell(point);
+        Knuckle firstKnuckle = new Knuckle(firstKnuckleNumber);
+        try{
+            cell.setKnuckle(firstKnuckle);
+        } catch (CellAlreadyHasKnuckleException exception) {
+            System.out.println(exception.getMessage());
+        }
 
+        Knuckle secondKnuckle = new Knuckle(secondKnuckleNumber);
+
+        boolean removingResult = cell.removeKnuckle(secondKnuckle);
+
+        int actualCellKnuckleNumber = cell.getKnuckleNumber();
+        Cell actualKnuckleCell = firstKnuckle.getCell();
+
+        Assertions.assertEquals(false, removingResult);
+        Assertions.assertEquals(firstKnuckleNumber, actualCellKnuckleNumber);
+        Assertions.assertEquals(cell, actualKnuckleCell);
     }
 
     @Test
