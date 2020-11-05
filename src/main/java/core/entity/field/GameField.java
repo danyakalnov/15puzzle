@@ -1,5 +1,7 @@
 package core.entity.field;
 
+import core.exceptions.CellAlreadyHasKnuckleException;
+import core.util.Direction;
 import core.util.Point;
 
 import java.util.*;
@@ -8,33 +10,61 @@ public class GameField {
     private int _size; // Размеры коробки
     private int _nbKnuckles;
 
-    private List<Cell> _cells;
+    private Map<Point, Cell> _cells;
     private List<Knuckle> _knuckles;
-
-    private static final Random RANDOM = new Random();
 
     private void setSize(int size) {
         this._size = size;
         this._nbKnuckles = size * size - 1;
     }
 
-    public GameField(int size) {
-        setSize(size); // Задаём полю размеры
-
-        /* Создаём клетки и помещаем их на поле; в клетки
-        * устанавливаем костяшки в первоначальном порядке */
+    private void setup(int size) {
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
-                Cell newCell = new Cell(new Point(row, col));
-                int newKnuckleNumber = row * size + col + 1; // Получаем очередной номер для костяшки
+                Point newCellPoint = new Point(col, row); // x - колонка, y - строка
+                Cell newCell = new Cell(newCellPoint);
+
+                if (row > 0) {
+                    Cell northCell = getCellByPoint(new Point(col, row - 1));
+                    northCell.setNeighbor(Direction.SOUTH, newCell);
+                }
+
+                if (col > 0) {
+                    Cell westCell = getCellByPoint(new Point(col - 1, row));
+                    westCell.setNeighbor(Direction.EAST, newCell);
+                }
+
+                int newKnuckleNumber = row * size + col + 1; // Получаем очередной номер для костяшки (также с номером 0)
                 if (newKnuckleNumber != size * size) {
                     Knuckle newKnuckle = new Knuckle(newKnuckleNumber);
                     this._knuckles.add(newKnuckle);
-                    newCell.setKnuckle(newKnuckle);
+                    try {
+                        newCell.setKnuckle(newKnuckle);
+                    } catch (CellAlreadyHasKnuckleException exception) {
+                        System.out.println(exception.getMessage());
+                    }
                 }
-                this._cells.add(newCell);
+                this._cells.put(newCellPoint, newCell);
             }
         }
+        this._knuckles.add(null); /* Добавляем пустую костяшку (нужна для перемешивания костяшек) */
+    }
+
+    public GameField(int size) {
+        this._cells = new TreeMap<>((o1, o2) -> {
+            if (o1.getY() > o2.getY())
+                return 1;
+            else if (o1.getY() == o2.getY())
+                return o1.getX() - o2.getX();
+            else return -1;
+        });
+        this._knuckles = new ArrayList<>();
+
+        setSize(size); /* Задаём полю размеры */
+
+        /* Создаём клетки и помещаем их на поле; в клетки
+         * устанавливаем костяшки в первоначальном порядке */
+        setup(size);
     }
 
     public int size() {
@@ -42,7 +72,11 @@ public class GameField {
     }
 
     public List<Cell> getCells() {
-        return Collections.unmodifiableList(this._cells);
+        return Collections.unmodifiableList(new ArrayList<>(this._cells.values()));
+    }
+
+    protected Cell getCellByPoint(Point point) {
+        return this._cells.get(point);
     }
 
     /**
@@ -52,16 +86,28 @@ public class GameField {
         /* Алгоритм: убрать все костяшки из их текуших
          * клеток и поместить в клетки по порядку */
         this._knuckles.forEach(knuckle -> {
-            knuckle.getCell().removeKnuckle(knuckle);
+            if (knuckle != null) knuckle.getCell().removeKnuckle(knuckle);
         });
-
-        int counter = 0;
-        for ( ; counter < _nbKnuckles; counter++) {
-            this._cells.get(counter).setKnuckle(_knuckles.get(counter));
-        }
     }
 
-    public void shuffle() {
+    public List<Cell> shuffle() {
+        /* Метод решения: перемешивать сами костяшки (не установлены на поле),
+        * на поле поставить такую расстановку костяшек, которая решаема */
+        reset();
+        Collections.shuffle(this._knuckles);
+        int counter = 0;
+        List<Cell> cellsList = this.getCells();
+        for ( ; counter <= _nbKnuckles; counter++) {
+            Cell currentCell = cellsList.get(counter);
+            Knuckle currentKnuckle = this._knuckles.get(counter);
+            if (currentKnuckle != null)
+                try {
+                    currentCell.setKnuckle(currentKnuckle);
+                } catch (CellAlreadyHasKnuckleException exception) {
+                    System.out.println(exception.getMessage());
+                }
+        }
 
+        return Collections.unmodifiableList(new ArrayList<>(this._cells.values()));
     }
 }
