@@ -3,12 +3,14 @@ package core.entity.field;
 import core.exceptions.CellAlreadyHasKnuckleException;
 import core.util.Direction;
 import core.util.Point;
-
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameField {
     private int _size; // Размеры коробки
     private int _nbKnuckles;
+
+    private static final Random RANDOM = new Random();
 
     private Map<Point, Cell> _cells;
     private List<Knuckle> _knuckles;
@@ -90,11 +92,11 @@ public class GameField {
         });
     }
 
-    public List<Cell> shuffle() {
+    public List<Integer> shuffle() {
         /* Метод решения: перемешивать сами костяшки (не установлены на поле),
         * на поле поставить такую расстановку костяшек, которая решаема */
         reset();
-        Collections.shuffle(this._knuckles);
+        Collections.shuffle(this._knuckles, RANDOM);
         int counter = 0;
         List<Cell> cellsList = this.getCells();
         for ( ; counter <= _nbKnuckles; counter++) {
@@ -108,6 +110,8 @@ public class GameField {
                 }
         }
 
-        return Collections.unmodifiableList(new ArrayList<>(this._cells.values()));
+        return Collections.unmodifiableList(this._knuckles.stream()
+                .map(knuckle -> Optional.ofNullable(knuckle).map(Knuckle::getNumber).orElse(0))
+                .collect(Collectors.toList()));
     }
 }
