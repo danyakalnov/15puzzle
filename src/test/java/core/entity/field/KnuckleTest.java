@@ -16,8 +16,7 @@ class KnuckleTest {
         final int knuckleNumber = 1;
         Knuckle knuckle = new Knuckle(knuckleNumber);
 
-        boolean result;
-        result = knuckle.setCell(cell);
+        boolean result = knuckle.setCell(cell);
         Cell actualCell = knuckle.getCell();
 
         Assertions.assertTrue(result);
@@ -43,7 +42,37 @@ class KnuckleTest {
     }
 
     @Test
-    void removeCell() {
+    void removeCellPositive() {
+        Point point = new Point(0, 0);
+        Cell cell = new Cell(point);
+
+        final int knuckleNumber = 1;
+        Knuckle knuckle = new Knuckle(knuckleNumber);
+        knuckle.setCell(cell);
+
+        boolean result = knuckle.removeCell(cell);
+        Cell actualCell = knuckle.getCell();
+
+        Assertions.assertTrue(result);
+        Assertions.assertNull(actualCell);
+    }
+
+    @Test
+    void removeCellNegative() {
+        Point firstPoint = new Point(0, 0);
+        Cell firstCell = new Cell(firstPoint);
+        Point secondPoint = new Point(1, 1);
+        Cell secondCell = new Cell(secondPoint);
+
+        final int knuckleNumber = 1;
+        Knuckle knuckle = new Knuckle(knuckleNumber);
+        knuckle.setCell(firstCell);
+
+        Cell actualCell = knuckle.getCell();
+        boolean result = knuckle.removeCell(secondCell);
+
+        Assertions.assertFalse(result);
+        Assertions.assertEquals(firstCell, actualCell);
     }
 
     @Test
