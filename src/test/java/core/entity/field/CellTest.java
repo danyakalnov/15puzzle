@@ -27,6 +27,14 @@ class CellTest {
     }
 
     @Test
+    void setNeighbor() {
+    }
+
+    @Test
+    void isNeighbor() {
+    }
+
+    @Test
     void oneEmptyNeighborCell() {
         final int[] pointCoordinates = new int[] {1, 1};
         Point targetPoint = new Point(pointCoordinates[0], pointCoordinates[1]);
@@ -163,7 +171,7 @@ class CellTest {
     }
 
     @Test
-    void removeAnotherKnuckle() {
+    void removeKnuckleByAnotherKnuckle() {
         final int firstKnuckleNumber = 1;
         final int secondKnuckleNumber = 2;
         final int[] pointCoordinates = new int[] {1, 1};
@@ -189,14 +197,27 @@ class CellTest {
     }
 
     @Test
-    void isEmpty() {
+    void isEmptyIfContainsKnuckle() {
+        final int[] pointCoordinates = new int[] {1, 1};
+        final int knuckleNumber = 1;
+        Point point = new Point(pointCoordinates[0], pointCoordinates[1]);
+        Cell cell = new Cell(point);
+        Knuckle knuckle = new Knuckle(knuckleNumber);
+        try {
+            cell.setKnuckle(knuckle);
+        } catch (CellAlreadyHasKnuckleException exception) {
+            System.out.println(exception.getMessage());
+        }
+
+        Assertions.assertEquals(false, cell.isEmpty());
     }
 
     @Test
-    void isNeighbor() {
-    }
+    void isEmptyIfDoesNotContainKnuckle() {
+        final int[] pointCoordinates = new int[] {1, 1};
+        Point point = new Point(pointCoordinates[0], pointCoordinates[1]);
+        Cell cell = new Cell(point);
 
-    @Test
-    void setNeighbor() {
+        Assertions.assertEquals(true, cell.isEmpty());
     }
 }
