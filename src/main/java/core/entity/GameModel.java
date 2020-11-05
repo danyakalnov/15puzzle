@@ -3,10 +3,14 @@ package core.entity;
 import core.entity.field.Cell;
 import core.entity.field.GameField;
 import core.entity.field.Knuckle;
+import core.event.KnuckleListener;
+import core.event.KnuckleObservable;
+
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
-public class GameModel {
+public class GameModel implements KnuckleListener {
     private boolean _gameOver;
     private final int _fieldSize = 4;
     private GameField _field;
@@ -22,6 +26,10 @@ public class GameModel {
 
     private void generateGameField() {
         this._field = new GameField(_fieldSize);
+        List<KnuckleObservable> knucklesList = this._field.getCells().stream().map(Cell::getKnuckle).collect(Collectors.toList());
+        for (KnuckleObservable knuckle : knucklesList) {
+            knuckle.registerObserver(this);
+        }
     }
 
     private boolean isSolvable(List<Integer> knucklesArrangement) {
@@ -57,5 +65,10 @@ public class GameModel {
         });
 
         return correctKnucklesOrder.equals(knucklesNumbers);
+    }
+
+    @Override
+    public void knuckleMoved() {
+        this._gameOver = areKnucklesInOrder();
     }
 }
