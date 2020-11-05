@@ -14,29 +14,29 @@ public class GameModel {
     public void start() {
         this._gameOver = false;
         generateGameField();
-        List<Cell> cellsArrangement;
+        List<Integer> knucklesArrangement;
         do {
-            cellsArrangement = this._field.shuffle();
-        } while (!isSolvable(cellsArrangement));
+            knucklesArrangement = this._field.shuffle();
+        } while (!isSolvable(knucklesArrangement));
     }
 
     private void generateGameField() {
         this._field = new GameField(_fieldSize);
     }
 
-    private boolean isSolvable(List<Cell> cellsArrangement) {
+    private boolean isSolvable(List<Integer> knucklesArrangement) {
         int inversionsCount = 0;
         for (int i = 0; i < _fieldSize * _fieldSize; ++i) {
-            int currentKnuckleNumber = cellsArrangement.get(i).getKnuckleNumber();
+            int currentKnuckleNumber = knucklesArrangement.get(i);
             if (currentKnuckleNumber != 0)
                 for (int j = 0; j < i; ++j) {
-                    int precededKnuckleNumber = cellsArrangement.get(j).getKnuckleNumber();
+                    int precededKnuckleNumber = knucklesArrangement.get(j);
                     if (precededKnuckleNumber > currentKnuckleNumber) ++inversionsCount;
                 }
         }
 
         for (int i = 0; i < _fieldSize * _fieldSize; ++i) {
-            int currentKnuckleNumber = cellsArrangement.get(i).getKnuckleNumber();
+            int currentKnuckleNumber = knucklesArrangement.get(i);
             if (currentKnuckleNumber == 0) inversionsCount += 1 + i / _fieldSize; // TODO: возможно, прибавление 1 влечёт за собой ошибку! Обратить на это внимание!!!
         }
 
