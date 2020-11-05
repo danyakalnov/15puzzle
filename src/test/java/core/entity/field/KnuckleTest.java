@@ -1,10 +1,10 @@
 package core.entity.field;
 
+import core.exceptions.CellAlreadyHasKnuckleException;
+import core.util.Direction;
 import core.util.Point;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class KnuckleTest {
 
@@ -76,7 +76,55 @@ class KnuckleTest {
     }
 
     @Test
-    void canMove() {
+    void canMovePositive() {
+        final int[] pointCoordinates = new int[] {1, 1};
+        Point targetPoint = new Point(pointCoordinates[0], pointCoordinates[1]);
+        Cell targetCell = new Cell(targetPoint);
+
+        Cell topNeighbor = new Cell(new Point(targetPoint.getX(), targetPoint.getY() - 1));
+        targetCell.setNeighbor(Direction.NORTH, topNeighbor);
+
+        final int knuckleNumber = 1;
+        Knuckle knuckle = new Knuckle(knuckleNumber);
+
+        try {
+            targetCell.setKnuckle(knuckle);
+        } catch (CellAlreadyHasKnuckleException exception) {
+            System.out.println(exception.getMessage());
+        }
+
+        Assertions.assertEquals(topNeighbor, knuckle.canMove());
+    }
+
+    @Test
+    void canMoveNegative() {
+        final int[] pointCoordinates = new int[] {1, 1};
+        Point targetPoint = new Point(pointCoordinates[0], pointCoordinates[1]);
+        Cell targetCell = new Cell(targetPoint);
+
+        Cell topNeighbor = new Cell(new Point(targetPoint.getX(), targetPoint.getY() - 1));
+        targetCell.setNeighbor(Direction.NORTH, topNeighbor);
+
+        final int firstKnuckleNumber = 1;
+        Knuckle firstKnuckle = new Knuckle(firstKnuckleNumber);
+
+        final int secondKnuckleNumber = 2;
+        Knuckle secondKnuckle = new Knuckle(secondKnuckleNumber);
+
+        try {
+            targetCell.setKnuckle(firstKnuckle);
+        } catch (CellAlreadyHasKnuckleException exception) {
+            System.out.println(exception.getMessage());
+        }
+
+        try {
+            topNeighbor.setKnuckle(secondKnuckle);
+        } catch (CellAlreadyHasKnuckleException exception) {
+            System.out.println(exception.getMessage());
+        }
+
+        Assertions.assertNull(firstKnuckle.canMove());
+        Assertions.assertNull(secondKnuckle.canMove());
     }
 
     @Test
