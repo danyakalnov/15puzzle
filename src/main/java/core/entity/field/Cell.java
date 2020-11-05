@@ -15,6 +15,10 @@ public class Cell {
         this._point = point;
     }
 
+    public Knuckle getKnuckle() {
+        return _knuckle;
+    }
+
     public int getKnuckleNumber() {
         if (this._knuckle != null) return _knuckle.getNumber();
         return 0;
