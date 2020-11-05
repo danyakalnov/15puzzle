@@ -23,7 +23,7 @@ class GameFieldTest {
     }
 
     @Test
-    void isConstructionValidTest() {
+    void isConstructionValid() {
         final int size = 4;
         GameField testField = new GameField(size);
         List<Cell> cells = testField.getCells();
@@ -43,7 +43,7 @@ class GameFieldTest {
     }
 
     @Test
-    void areNeighborsValidForCenterCellTest() {
+    void areNeighborsValidForCenterCell() {
         final int size = 4;
         GameField testField = new GameField(size);
 
@@ -74,7 +74,7 @@ class GameFieldTest {
     }
 
     @Test
-    void areNeighborsValidForCornerCellTest() {
+    void areNeighborsValidForCornerCell() {
         final int size = 4;
         GameField testField = new GameField(size);
 
@@ -100,7 +100,7 @@ class GameFieldTest {
     }
 
     @Test
-    void areNeighborsValidForBottomCellTest() {
+    void areNeighborsValidForBottomCell() {
         final int size = 4;
         GameField testField = new GameField(size);
 
@@ -128,7 +128,7 @@ class GameFieldTest {
     }
 
     @Test
-    void areNeighborsValidForRightCellTest() {
+    void areNeighborsValidForRightCell() {
         final int size = 4;
         GameField testField = new GameField(size);
 
@@ -156,7 +156,7 @@ class GameFieldTest {
     }
 
     @Test
-    void shuffleTest() {
+    void shuffle() {
         final int size = 4;
         GameField testField = new GameField(size);
 
