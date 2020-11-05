@@ -157,21 +157,9 @@ class GameFieldTest {
         final int size = 4;
         GameField testField = new GameField(size);
 
-        List<Cell> cellsArrangement1 = testField.shuffle();
-        List<Cell> cellsArrangement2 = testField.shuffle();
+        List<Integer> knucklesArrangement1 = testField.shuffle();
+        List<Integer> knucklesArrangement2 = testField.shuffle();
 
-        List<Integer> knucklesArrangement1 = new ArrayList<>();
-        cellsArrangement1.forEach(cell -> {
-            knucklesArrangement1.add(cell.getKnuckleNumber());
-        });
-
-        List<Integer> knucklesArrangement2 = new ArrayList<>();
-        cellsArrangement2.forEach(cell -> {
-            knucklesArrangement2.add(cell.getKnuckleNumber());
-        });
-
-        Assertions.assertEquals(cellsArrangement1, cellsArrangement2); /* Порядок клеток неизменный */
-        Assertions.assertEquals(cellsArrangement1.size(), cellsArrangement2.size());
         Assertions.assertNotEquals(knucklesArrangement1, knucklesArrangement2);
     }
 }
