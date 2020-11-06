@@ -12,11 +12,13 @@ import java.util.stream.Collectors;
 
 public class GameModel implements KnuckleListener {
     private boolean _gameOver;
+    private int _movesCount;
     private final int _fieldSize = 4;
     private GameField _field;
 
     public void start() {
         this._gameOver = false;
+        this._movesCount = 0;
         generateGameField();
         List<Integer> knucklesArrangement;
         do {
@@ -69,6 +71,7 @@ public class GameModel implements KnuckleListener {
 
     @Override
     public void knuckleMoved() {
+        this._movesCount += 1;
         this._gameOver = areKnucklesInOrder();
     }
 }
