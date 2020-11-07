@@ -2,19 +2,24 @@ package core.entity;
 
 import core.entity.field.Cell;
 import core.entity.field.GameField;
-import core.entity.field.Knuckle;
+import core.event.GameStateListener;
 import core.event.KnuckleListener;
 import core.event.KnuckleObservable;
-
+import core.event.ModelObservable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class GameModel implements KnuckleListener {
+public class GameModel implements KnuckleListener, ModelObservable {
     private boolean _gameOver;
     private int _movesCount;
     private final int _fieldSize = 4;
     private GameField _field;
+    private List<GameStateListener> _listeners;
+
+    public GameModel() {
+        this._listeners = new ArrayList<>();
+    }
 
     public void start() {
         this._gameOver = false;
@@ -69,9 +74,31 @@ public class GameModel implements KnuckleListener {
         return correctKnucklesOrder.equals(knucklesNumbers);
     }
 
+    public GameField getGameField() {
+        return this._field;
+    }
+
+    private void notifyObservers(boolean isGameOver, int movesCount) {
+        for (GameStateListener listener : this._listeners)
+            listener.knuckleMoved(isGameOver, movesCount);
+    }
+
     @Override
     public void knuckleMoved() {
         this._movesCount += 1;
         this._gameOver = areKnucklesInOrder();
+        notifyObservers(this._gameOver, this._movesCount);
+    }
+
+    @Override
+    public void registerObserver(GameStateListener listener) {
+        if (listener != null && !_listeners.contains(listener))
+            this._listeners.add(listener);
+    }
+
+    @Override
+    public void removeObserver(GameStateListener listener) {
+        if (listener != null && _listeners.contains(listener))
+            this._listeners.remove(listener);
     }
 }
