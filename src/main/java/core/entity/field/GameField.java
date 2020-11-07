@@ -73,6 +73,10 @@ public class GameField {
         return _size;
     }
 
+    /**
+     * Получение списка клеток
+     * @return список клеток в порядке возрастания (сверху-вниз, слева-направо)
+     */
     public List<Cell> getCells() {
         return Collections.unmodifiableList(new ArrayList<>(this._cells.values()));
     }
