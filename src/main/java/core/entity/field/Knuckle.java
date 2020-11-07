@@ -49,7 +49,7 @@ public class Knuckle implements KnuckleObservable {
         return this._position.getEmptyNeighborCell();
     }
 
-    protected Cell move() {
+    public Cell move() {
         Cell emptyCell = canMove();
         if (emptyCell != null) {
             this._position.removeKnuckle(this);
