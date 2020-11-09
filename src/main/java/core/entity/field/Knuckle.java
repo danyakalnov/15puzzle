@@ -55,7 +55,7 @@ public class Knuckle implements KnuckleObservable {
             this._position.removeKnuckle(this);
             try {
                 if (emptyCell.setKnuckle(this)) {
-                    notifyListeners();
+                    notifyListeners(emptyCell);
                     return emptyCell;
                 }
             } catch (CellAlreadyHasKnuckleException exception) {
@@ -81,9 +81,9 @@ public class Knuckle implements KnuckleObservable {
         return "Костяшка №" + Integer.toString(this._number);
     }
 
-    private void notifyListeners() {
+    private void notifyListeners(Cell newPosition) {
         for (KnuckleListener observer : _observers) {
-            observer.knuckleMoved();
+            observer.knuckleMoved(this, newPosition);
         }
     }
 
