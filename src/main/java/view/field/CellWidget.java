@@ -26,17 +26,17 @@ public class CellWidget extends JPanel {
         return knuckle.getKnuckleNumber();
     }
 
-    public KnuckleWidget removeKnuckle() {
+    protected KnuckleWidget removeKnuckle() {
         remove(knuckle);
         repaint();
         return knuckle;
     }
 
-    public Cell getCell() {
+    protected Cell getCell() {
         return this.cell;
     }
 
-    public void setKnuckle(KnuckleWidget knuckle) {
+    protected void setKnuckle(KnuckleWidget knuckle) {
         this.knuckle = knuckle;
         add(knuckle);
         repaint();
