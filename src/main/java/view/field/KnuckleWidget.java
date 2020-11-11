@@ -10,12 +10,12 @@ import java.awt.event.MouseEvent;
 public class KnuckleWidget extends JPanel {
 
     private static final Color KNUCKLE_COLOR = new Color(222, 225, 227);
-    private static final Dimension KNUCKLE_DIMENSION = new Dimension(110, 110);
+    private final Dimension dimension;
     private Knuckle knuckle;
 
-    public KnuckleWidget(Knuckle knuckle) {
-
-        setPreferredSize(KNUCKLE_DIMENSION);
+    public KnuckleWidget(Knuckle knuckle, Dimension dimension) {
+        this.dimension = dimension;
+        setPreferredSize(dimension);
         this.knuckle = knuckle;
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -46,12 +46,12 @@ public class KnuckleWidget extends JPanel {
             Graphics2D g = (Graphics2D)graphics;
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setColor(Color.BLACK);
-            g.fillRoundRect(0, 0, KNUCKLE_DIMENSION.width, KNUCKLE_DIMENSION.height, 20, 20);
+            g.fillRoundRect(0, 0, this.dimension.width, this.dimension.height, 20, 20);
             g.setColor(KNUCKLE_COLOR);
-            g.fillRoundRect(2, 2, KNUCKLE_DIMENSION.width - 4, KNUCKLE_DIMENSION.height - 4, 20, 20);
+            g.fillRoundRect(2, 2, this.dimension.width - 4, this.dimension.height - 4, 20, 20);
             g.setFont(f);
             g.setColor(Color.BLACK);
-            drawKnuckleValue(Integer.toString(this.knuckle.getNumber()), KNUCKLE_DIMENSION.width, KNUCKLE_DIMENSION.height, g);
+            drawKnuckleValue(Integer.toString(this.knuckle.getNumber()), this.dimension.width, this.dimension.height, g);
         }
     }
 }

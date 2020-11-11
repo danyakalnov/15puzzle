@@ -17,7 +17,7 @@ public class CellWidget extends JPanel {
         setPreferredSize(dim);
         setLayout(null);
         setBackground(color);
-        this.knuckle = new KnuckleWidget(cell.getKnuckle());
+        this.knuckle = new KnuckleWidget(cell.getKnuckle(), dim);
         knuckle.setBounds(0, 0, dim.width, dim.height);
         add(knuckle);
     }
