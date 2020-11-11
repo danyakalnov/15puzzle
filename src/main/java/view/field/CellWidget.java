@@ -22,7 +22,7 @@ public class CellWidget extends JPanel {
         add(knuckle);
     }
 
-    public int getKnuckleNumber() {
+    protected int getKnuckleNumber() {
         return knuckle.getKnuckleNumber();
     }
 
