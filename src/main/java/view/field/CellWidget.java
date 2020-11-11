@@ -28,7 +28,6 @@ public class CellWidget extends JPanel {
 
     protected KnuckleWidget removeKnuckle() {
         remove(knuckle);
-        repaint();
         return knuckle;
     }
 
@@ -39,7 +38,6 @@ public class CellWidget extends JPanel {
     protected void setKnuckle(KnuckleWidget knuckle) {
         this.knuckle = knuckle;
         add(knuckle);
-        repaint();
     }
 
     @Override
