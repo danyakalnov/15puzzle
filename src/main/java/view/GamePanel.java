@@ -12,14 +12,12 @@ import java.awt.event.WindowEvent;
 
 public class GamePanel extends JFrame implements GameStateListener {
 
-    private final GameModel model;
     private final FieldWidget field;
     private final GameInfoWidget gameInfo;
     boolean _gameOver;
     int _movesCount;
 
     public GamePanel(GameModel model) {
-        this.model = model;
         this.field = new FieldWidget(model.getGameField());
         this.gameInfo = new GameInfoWidget();
         model.registerObserver(this);
