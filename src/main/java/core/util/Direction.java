@@ -17,10 +17,6 @@ public enum Direction {
 
     private Direction opposite;
 
-    public static List<Direction> all() {
-        return Collections.unmodifiableList(List.of(NORTH, SOUTH, EAST, WEST));
-    }
-
     public Direction getOpposite() {
         return opposite;
     }
